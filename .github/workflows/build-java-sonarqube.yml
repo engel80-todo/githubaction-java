@@ -1,10 +1,3 @@
-# Optimize Gradle build speed using cache plugin
-
-## GitHub Workflow
-
-[.github/workflows/build-java.yml](.github/workflows/build-java.yml):
-
-```bash
 name: Build
 on:
   push:
@@ -44,34 +37,3 @@ jobs:
           java-version: 11
       - name: Build and analyze
         run: ./gradlew build --info
-```
-
-### Time Taken
-
-| Action Step            | Cache Miss  | Cache Hit  |
-|------------------------|-------------|------------|
-| Set up JDK 11          | 6s          | 6s   |
-| Cache Gradle packages  | 0s          | 8s   |
-| Grable build           | 33s         | 8s   |
-
-- Cache miss:
-
-    ![cache-miss](screenshots/cache-miss.png?raw=true)
-
-    Download gradle wrapper and SpringBoot dependencies.
-
-- Cache hit:
-
-    ![cache-hit](screenshots/cache-hit.png?raw=true)
-
-    ![github-cache](screenshots/github-cache.png?raw=true)
-
-Run details in usage menu:
-
-![build-time-in-usage](screenshots/build-time-in-usage.png?raw=true)
-
-## Reference
-
-- https://github.com/actions/cache
-
-- https://github.com/actions/cache/blob/main/examples.md#java---gradle
