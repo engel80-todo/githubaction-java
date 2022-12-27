@@ -63,4 +63,4 @@ jobs:
           file: ./Dockerfile
           push: true
           # tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:${{ env.IMAGE_TAG }}
-          tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:latest
+          tags: gcr.io/${{ secrets.PROJECT_ID }}/${{ github.repository }}:latest
