@@ -72,6 +72,8 @@ Run details in usage menu:
 
 ## Reference
 
+- [GitHub Actions /Using workflows / Cache dependencies / Caching dependencies to speed up workflows](https://docs.github.com/en/actions/using-workflows/caching-dependencies-to-speed-up-workflows#managing-caches)
+
 - https://github.com/actions/cache
 
 - https://github.com/actions/cache/blob/main/examples.md#java---gradle
