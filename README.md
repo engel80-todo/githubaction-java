@@ -2,30 +2,67 @@
 
 ## Build cache for Gradle
 
-[.github/workflows/build-java.yml](.github/workflows/build-java.yml)
+[.github/workflows/build-java.yml](.github/workflows/build-java.yml):
 
-gradle-cache 40s 
+```bash
+name: Build
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+    types: [opened, synchronize, reopened]
 
+jobs:
+  gradle-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/gradle-wrapper.properties') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        run: ./gradlew build --info
+          
+  gradle-no-cache:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build and analyze
+        run: ./gradlew build --info
+```
+### Time Taken
 
-Build
-gradle-no-cache 44s
+| Action Step            | Cache Miss  | Cache Hit  |
+|------------------------|-------------|------------|
+| Cache Gradle packages  | 0s          | 8s   |
+| Grable build           | 33s         | 8s   |
 
-![build-time-vs](screenshots/build-time-vs.png?raw=true)
+- Cache miss:
 
-![github-cache](screenshots/github-cache.png?raw=true)
+    ![cache-miss.png](screenshots/cache-miss.png?raw=true)
 
-Restore Cache
-![github-cache-download](screenshots/github-cache-download.png?raw=true)
+    Download gradle wrapper and SpringBoot dependencies.
 
+- Cache hit:
 
-Run actions/cache@v3
-Received 8388608 of 142609533 (5.9%), 8.0 MBs/sec
-Received 125829120 of 142609533 (88.2%), 60.0 MBs/sec
-Received 142609533 of 142609533 (100.0%), 60.7 MBs/sec
-Cache Size: ~136 MB (142609533 B)
-/usr/bin/tar -xf /home/runner/work/_temp/f9cf1074-a647-42aa-a006-05a83ef4b250/cache.tzst -P -C /home/runner/work/test-githubaction-java/test-githubaction-java --use-compress-program unzstd
-Cache restored successfully
-Cache restored from key: Linux-gradle-a8e851f2af992b0ae2f6269da8beb9ec5c2688713b5e69ad0df36425b639957e
+    ![cache-hit.png](screenshots/cache-hit.png?raw=true)
+
+    ![github-cache](screenshots/github-cache.png?raw=true)
 
 ## Reference
 
