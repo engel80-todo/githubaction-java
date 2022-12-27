@@ -8,7 +8,7 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
-  cache:
+  gradle-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -17,7 +17,7 @@ jobs:
         with:
           java-version: 11
       - name: Cache Gradle packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: |
             ~/.gradle/caches
@@ -27,7 +27,7 @@ jobs:
       - name: Build and analyze
         run: ./gradlew build --info
           
-  no-cache:
+  gradle-no-cache:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
