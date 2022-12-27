@@ -28,13 +28,13 @@ test {
 
 sonarqube {
     properties {
-        property "sonar.projectName", "githubaction"
-        property "sonar.projectKey", "DevSecOpsSamples_githubaction"
+        property "sonar.projectName", "test-githubaction-java"
+        property "sonar.projectKey", "DevSecOpsSamples_test-githubaction-java"
         property "sonar.organization", "devsecopssamples"
         // property "sonar.host.url", "http://127.0.0.1:9000"
-        // property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.host.url", "https://sonarcloud.io"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.java.binaries", "build"
-        property "sonar.links.ci", "https://github.com/DevSecOpsSamples/githubaction/actions"
+        property "sonar.links.ci", "https://github.com/DevSecOpsSamples/test-githubaction-java/actions"
     }
 }
