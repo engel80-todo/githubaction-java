@@ -31,9 +31,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Setup docker context for buildx
+        run: docker context create builders
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@v2
         with:
-          java-version: 11
-      - name: Build and analyze
-        run: ./gradlew build --info
+          endpoint: builders
+      - uses: 'google-github-actions/auth@v1'
+        with:
+          credentials_json: ${{ secrets.SA }}
+      - uses: 'google-github-actions/setup-gcloud@v1'
+      - name: Configure Docker auth for gcloud command-line
+        run: gcloud --quiet auth configure-docker && gcloud auth list
+      - name: Build and push image
+        id: build_and_push
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          # tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:${{ env.IMAGE_TAG }}
+          tags: gcr.io/${{ secrets.PROJECT_ID }}/githubaction-java-dev:latest
