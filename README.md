@@ -54,6 +54,8 @@ jobs:
 | Cache Gradle packages  | 0s          | 8s   |
 | Grable build           | 33s         | 8s   |
 
+You can speed up build time 17 seconds.
+
 - Cache miss:
 
     ![cache-miss](screenshots/cache-miss.png?raw=true)
