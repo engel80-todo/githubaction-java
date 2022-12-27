@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build and analyze
-        run: ./gradlew build --info
+        run: ./gradlew build sonarqube --info
           
   gradle-sonarqube-no-cache:
     runs-on: ubuntu-latest
